@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chutikarn Sawangpisankij — 3D Portfolio</title>
+  <meta name="description" content="3D portfolio of Chutikarn Sawangpisankij (Great), a fourth-year Digital Media Design student." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#09090c; --panel:#111118; --panel2:#171720; --text:#f5f2ee; --muted:#a7a2aa;
+      --accent:#c8ff38; --accent2:#8f6bff; --line:rgba(255,255,255,.10);
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    #three-bg{position:fixed;inset:0;z-index:-2}
+    .noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:20;backdrop-filter:blur(18px);background:rgba(9,9,12,.65);border-bottom:1px solid var(--line)}
+    .nav-inner{max-width:var(--max);margin:auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-family:"Space Grotesk";font-weight:700;letter-spacing:-.04em}
+    .brand span{color:var(--accent)}
+    .links{display:flex;gap:24px;font-size:13px;color:#c9c5ca}
+    .links a:hover{color:var(--accent)}
+    .pill{border:1px solid rgba(200,255,56,.35);padding:8px 13px;border-radius:999px;color:var(--accent);font-size:12px}
+    .hero{min-height:100vh;display:grid;place-items:center;padding:120px 24px 70px}
+    .hero-inner{width:min(var(--max),100%);display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+    h1{font-family:"Space Grotesk";font-size:clamp(54px,8vw,108px);line-height:.86;letter-spacing:-.075em;margin:18px 0 24px}
+    h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(245,242,238,.55)}
+    .lead{font-size:18px;line-height:1.65;color:#c5c0c7;max-width:600px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .btn{padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);cursor:pointer}
+    .btn.primary{background:var(--accent);color:#0a0a0c;border-color:var(--accent);font-weight:700}
+    .btn:hover{transform:translateY(-2px)}
+    .hero-card{height:510px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.015));overflow:hidden;position:relative;box-shadow:0 30px 100px rgba(0,0,0,.35)}
+    #hero-canvas{width:100%;height:100%;display:block}
+    .card-label{position:absolute;left:18px;bottom:18px;padding:9px 12px;border:1px solid var(--line);background:rgba(5,5,8,.65);backdrop-filter:blur(10px);border-radius:12px;font-size:12px;color:#d5d0d6}
+    section{padding:110px 24px}
+    .section-inner{width:min(var(--max),100%);margin:auto}
+    .section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:32px}
+    .kicker{font-family:"Space Grotesk";font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:.16em}
+    h2{font-family:"Space Grotesk";font-size:clamp(38px,5vw,68px);letter-spacing:-.06em;margin:8px 0 0;line-height:.95}
+    .section-head p{max-width:410px;color:var(--muted);line-height:1.6}
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .panel{background:rgba(17,17,24,.75);border:1px solid var(--line);border-radius:22px;padding:28px}
+    .panel h3{font-family:"Space Grotesk";margin:0 0 10px;font-size:22px}
+    .panel p{color:#b8b3ba;line-height:1.7;margin:0}
+    .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
+    .fact{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
+    .fact b{display:block;font-size:11px;color:#8e8991;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+    .fact span{font-weight:600}
+    .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .project{grid-column:span 6;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:rgba(17,17,24,.82);transition:.25s}
+    .project:hover{transform:translateY(-5px);border-color:rgba(200,255,56,.35)}
+    .project.wide{grid-column:span 12}
+    .media{aspect-ratio:16/10;background:#0d0d12;overflow:hidden;position:relative}
+    .media img,.media video{width:100%;height:100%;display:block;object-fit:cover}
+    .media.contain img{object-fit:contain;padding:22px}
+    .project-body{padding:20px 21px 22px}
+    .project-body .num{font-size:11px;color:var(--accent);letter-spacing:.12em}
+    .project-body h3{font-family:"Space Grotesk";font-size:26px;letter-spacing:-.035em;margin:7px 0}
+    .project-body p{margin:0;color:var(--muted);line-height:1.6}
+    .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+    .tag{font-size:11px;color:#cbc6cd;border:1px solid var(--line);border-radius:999px;padding:6px 9px}
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;border:1px solid var(--line);cursor:pointer}
+    .skills{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .skill{min-height:150px;border:1px solid var(--line);border-radius:20px;padding:20px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015))}
+    .skill .icon{font-size:28px;margin-bottom:20px}
+    .skill h3{font-family:"Space Grotesk";margin:0 0 6px}
+    .skill p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+    .contact{border:1px solid rgba(200,255,56,.22);background:linear-gradient(135deg,rgba(200,255,56,.08),rgba(143,107,255,.07));border-radius:28px;padding:40px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+    .contact h2{font-size:clamp(40px,5vw,72px)}
+    .contact p{color:#bdb8bf;max-width:620px;line-height:1.65}
+    .contact-links{display:flex;flex-direction:column;gap:10px;min-width:220px}
+    .contact-link{border:1px solid var(--line);padding:13px 16px;border-radius:13px;background:rgba(0,0,0,.18)}
+    footer{padding:30px 24px 45px;color:#77727a;font-size:12px}
+    .footer-inner{width:min(var(--max),100%);margin:auto;display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:900px){
+      .hero-inner,.about,.contact{grid-template-columns:1fr}
+      .hero-card{height:400px}
+      .skills{grid-template-columns:repeat(2,1fr)}
+      .project,.project.wide{grid-column:span 12}
+      .links{display:none}
+      .contact-links{min-width:0}
+    }
+    @media(max-width:600px){
+      section{padding:80px 18px}
+      .hero{padding:105px 18px 50px}
+      .nav-inner{padding:14px 18px}
+      h1{font-size:56px}
+      .hero-card{height:330px}
+      .skills{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .panel{padding:22px}
+      .contact{padding:25px}
+      .footer-inner{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<div id="three-bg"></div>
+<div class="noise"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">GREAT<span>.</span></a>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="pill" href="#contact">Available for opportunities</a>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> 3D / Animation / Digital Media</div>
+        <h1>CHUTIKARN<br><em>SAWANGPISANKIJ</em></h1>
+        <p class="lead">
+          Hi, I'm <strong>Great</strong> — a fourth-year Digital Media Design student who enjoys
+          building stylized 3D characters, rigs, animation shots and visual worlds.
+          I'm looking for an opportunity to grow, contribute and turn ideas into finished work.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#work">View selected work ↓</a>
+          <a class="btn" href="#contact">Let's connect</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <canvas id="hero-canvas"></canvas>
+        <div class="card-label">Interactive 3D — drag / scroll to explore</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-head">
+        <div><div class="kicker">01 — About</div><h2>A creator who<br>likes making things move.</h2></div>
+        <p>I focus on the practical side of 3D: modeling, character setup, rigging, animation and presenting a finished visual story.</p>
+      </div>
+      <div class="about">
+        <div class="panel">
+          <h3>Nice to meet you.</h3>
+          <p>
+            My nickname is <strong>Great</strong>. I'm currently in my fourth year and building
+            a portfolio around 3D character work and animation. I like stylized proportions,
+            clear silhouettes and scenes that communicate an emotion without needing a wall of text.
+          </p>
+          <div class="facts">
+            <div class="fact"><b>Name</b><span>Chutikarn Sawangpisankij</span></div>
+            <div class="fact"><b>Nickname</b><span>Great</span></div>
+            <div class="fact"><b>Level</b><span>4th-year student</span></div>
+            <div class="fact"><b>Focus</b><span>3D / Animation</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>What I can bring</h3>
+          <p>
+            A hands-on workflow from character reference and modeling through rigging,
+            posing, animation and final presentation. I care about clean composition,
+            readable motion and making the technical work serve the story.
+          </p>
+          <div class="tags">
+            <span class="tag">Character Design</span>
+            <span class="tag">3D Modeling</span>
+            <span class="tag">Rigging</span>
+            <span class="tag">Animation</span>
+            <span class="tag">Visual Storytelling</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-inner">
+      <div class="section-head">
+        <div><div class="kicker">02 — Selected Work</div><h2>Projects with<br>process, not just pretty renders.</h2></div>
+        <p>These projects show character development, rigging setup, environment work and animation/game-related production.</p>
+      </div>
+
+      <div class="projects">
+        <article class="project wide">
+          <div class="media"><video controls preload="metadata" poster="assets/character-room.png"><source src="assets/uphill-bus-simulator-3d.mp4" type="video/mp4"></video></div>
+          <div class="project-body">
+            <div class="num">PROJECT 01</div>
+            <h3>Uphill Bus Simulator 3D</h3>
+            <p>A 3D interactive project focused on environment, vehicle/game presentation and getting a playable scene from idea to working result.</p>
+            <div class="tags"><span class="tag">3D</span><span class="tag">Game Project</span><span class="tag">Environment</span><span class="tag">Animation</span></div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="media contain"><img src="assets/nadia-model-sheet.png" alt="Nadia character model reference"></div>
+          <div class="project-body">
+            <div class="num">PROJECT 02</div>
+            <h3>Nadia — Character Development</h3>
+            <p>Stylized character modeling based on turnaround references, with front/side checks and a focus on proportions and silhouette.</p>
+            <div class="gallery">
+              <img src="assets/nadia-front.png" alt="Nadia front view">
+              <img src="assets/nadia-side.png" alt="Nadia side view">
+              <img src="assets/nadia-adult.png" alt="Nadia adult design">
+            </div>
+            <div class="tags"><span class="tag">Character</span><span class="tag">3D Modeling</span><span class="tag">Reference</span></div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="media contain"><img src="assets/father-model.png" alt="Father character model"></div>
+          <div class="project-body">
+            <div class="num">PROJECT 03</div>
+            <h3>Father — Character Variations</h3>
+            <p>Character design exploration across age and profile variations, keeping the core visual identity consistent.</p>
+            <div class="gallery">
+              <img src="assets/father-old.png" alt="Older father character">
+              <img src="assets/father-old-side.png" alt="Older father side view">
+              <img src="assets/father-old-front.png" alt="Older father front view">
+            </div>
+            <div class="tags"><span class="tag">Character Design</span><span class="tag">Modeling</span><span class="tag">Age Variation</span></div>
+          </div>
+        </article>
+
+        <article class="project wide">
+          <div class="media contain"><img src="assets/rig-front.png" alt="3D character rig in Blender"></div>
+          <div class="project-body">
+            <div class="num">PROJECT 04</div>
+            <h3>Character Rigging & Animation Setup</h3>
+            <p>Rigging and pose setup in Blender, including front/side alignment against character references. The goal is a controllable character that can move cleanly through animation.</p>
+            <div class="gallery">
+              <img src="assets/rig-side.png" alt="Character rig side view">
+              <img src="assets/character-front.png" alt="Character front render">
+              <img src="assets/character-room.png" alt="Character in room scene">
+            </div>
+            <div class="tags"><span class="tag">Blender</span><span class="tag">Rigging</span><span class="tag">Pose</span><span class="tag">Animation</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-head">
+        <div><div class="kicker">03 — Skills</div><h2>My production<br>toolkit.</h2></div>
+        <p>Built through university projects and hands-on production rather than just collecting software names.</p>
+      </div>
+      <div class="skills">
+        <div class="skill"><div class="icon">◈</div><h3>3D Modeling</h3><p>Stylized characters, props, simple environments and reference-based modeling.</p></div>
+        <div class="skill"><div class="icon">⌘</div><h3>Rigging</h3><p>Character armatures, controls, weight setup and pose testing for animation.</p></div>
+        <div class="skill"><div class="icon">↗</div><h3>Animation</h3><p>Blocking, posing, timing and movement for character-driven shots.</p></div>
+        <div class="skill"><div class="icon">✦</div><h3>Visual Design</h3><p>Composition, color, storytelling and presentation for digital media projects.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact">
+        <div>
+          <div class="kicker">04 — Contact</div>
+          <h2>Let's make<br>something move.</h2>
+          <p>
+            I'm open to internship, junior and entry-level opportunities related to 3D,
+            animation, games and digital media. Replace the contact placeholders below
+            with your actual email and social links before sending this portfolio to employers.
+          </p>
+        </div>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:YOUR_EMAIL@example.com">✉ YOUR_EMAIL@example.com</a>
+          <a class="contact-link" href="#" onclick="return false">◎ Instagram / Portfolio</a>
+          <a class="contact-link" href="#" onclick="return false">in LinkedIn / Resume</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Chutikarn Sawangpisankij — Great.</span>
+    <span>Designed as a 3D-first portfolio concept.</span>
+  </div>
+</footer>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js';
+
+const bg = document.getElementById('three-bg');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x09090c, 0.035);
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, .1, 100);
+camera.position.set(0, 1.6, 7);
+
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+bg.appendChild(renderer.domElement);
+
+const ambient = new THREE.HemisphereLight(0xd9e2ff, 0x16111c, 1.8);
+scene.add(ambient);
+const key = new THREE.DirectionalLight(0xffffff, 2.4);
+key.position.set(4,6,5);
+scene.add(key);
+const lime = new THREE.PointLight(0xc8ff38, 18, 18);
+lime.position.set(-4,2,3);
+scene.add(lime);
+const purple = new THREE.PointLight(0x8f6bff, 14, 16);
+purple.position.set(4,-1,2);
+scene.add(purple);
+
+const grid = new THREE.GridHelper(40, 40, 0x35333b, 0x17171d);
+grid.position.y = -2.2;
+scene.add(grid);
+
+const particlesGeo = new THREE.BufferGeometry();
+const positions = new Float32Array(900*3);
+for(let i=0;i<900;i++){
+  positions[i*3] = (Math.random()-.5)*34;
+  positions[i*3+1] = (Math.random()-.5)*18;
+  positions[i*3+2] = (Math.random()-.5)*22;
+}
+particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+const particles = new THREE.Points(particlesGeo, new THREE.PointsMaterial({color:0xaaa7b1,size:.018,transparent:true,opacity:.55}));
+scene.add(particles);
+
+function makeBackdropObject(){
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({color:0x1d1d25, roughness:.42, metalness:.35});
+  const accent = new THREE.MeshStandardMaterial({color:0xc8ff38, roughness:.25, metalness:.5});
+  const torus = new THREE.Mesh(new THREE.TorusGeometry(1.2,.035,16,96), accent);
+  torus.rotation.x = Math.PI/2;
+  g.add(torus);
+  const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(.72,1), mat);
+  g.add(ico);
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.65,.018,12,96), new THREE.MeshStandardMaterial({color:0x8f6bff,emissive:0x2b165e,emissiveIntensity:1.1}));
+  ring2.rotation.y = Math.PI/2.7;
+  g.add(ring2);
+  return g;
+}
+const bgObj = makeBackdropObject();
+bgObj.position.set(8,2,-2);
+scene.add(bgObj);
+
+const controlsBg = new OrbitControls(camera, renderer.domElement);
+controlsBg.enableDamping = true;
+controlsBg.enableZoom = false;
+controlsBg.enablePan = false;
+controlsBg.autoRotate = true;
+controlsBg.autoRotateSpeed = .18;
+controlsBg.target.set(0,0,0);
+
+const heroCanvas = document.getElementById('hero-canvas');
+const heroScene = new THREE.Scene();
+heroScene.background = new THREE.Color(0x0d0d12);
+const heroCamera = new THREE.PerspectiveCamera(35, 1, .1, 50);
+heroCamera.position.set(4,2.8,7.2);
+
+const heroRenderer = new THREE.WebGLRenderer({canvas:heroCanvas,antialias:true,alpha:false});
+heroRenderer.setPixelRatio(Math.min(devicePixelRatio,2));
+
+heroScene.add(new THREE.HemisphereLight(0xffffff,0x14121a,2.2));
+const hKey = new THREE.DirectionalLight(0xffffff,3.2); hKey.position.set(3,5,4); heroScene.add(hKey);
+const hFill = new THREE.PointLight(0xc8ff38,15,10); hFill.position.set(-3,1,2); heroScene.add(hFill);
+
+const heroGroup = new THREE.Group();
+heroScene.add(heroGroup);
+
+const skin = new THREE.MeshStandardMaterial({color:0xd9b79e,roughness:.72});
+const hair = new THREE.MeshStandardMaterial({color:0x3a2a27,roughness:.8});
+const shirt = new THREE.MeshStandardMaterial({color:0xb75bcf,roughness:.65});
+const dark = new THREE.MeshStandardMaterial({color:0x22212a,roughness:.8});
+
+function capsule(radius,length,material){
+  const group = new THREE.Group();
+  const cyl = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,length,16),material);
+  group.add(cyl);
+  const a = new THREE.Mesh(new THREE.SphereGeometry(radius,16,12),material);
+  const b = a.clone();
+  a.position.y = length/2; b.position.y = -length/2;
+  group.add(a,b);
+  return group;
+}
+const torso = new THREE.Mesh(new THREE.CapsuleGeometry(.78,.95,8,18),shirt);
+torso.scale.set(.9,1.05,.55); torso.position.y=.15; heroGroup.add(torso);
+const head = new THREE.Mesh(new THREE.SphereGeometry(.78,32,24),skin);
+head.scale.set(.9,1.05,.82); head.position.y=1.75; heroGroup.add(head);
+const hairCap = new THREE.Mesh(new THREE.SphereGeometry(.82,32,16,0,Math.PI*2,0,Math.PI*.62),hair);
+hairCap.scale.set(.93,1.03,.9); hairCap.position.set(0,1.9,0); heroGroup.add(hairCap);
+
+for(const s of [-1,1]){
+  const eye = new THREE.Mesh(new THREE.SphereGeometry(.105,16,12),new THREE.MeshStandardMaterial({color:0x5a4c75}));
+  eye.position.set(.29*s,1.78,.69); heroGroup.add(eye);
+  const arm = capsule(.17,.9,shirt);
+  arm.rotation.z = Math.PI/2;
+  arm.position.set(.93*s,.42,0);
+  heroGroup.add(arm);
+  const fore = capsule(.13,.75,skin);
+  fore.rotation.z = Math.PI/2;
+  fore.position.set(1.58*s,.42,0);
+  heroGroup.add(fore);
+  const leg = capsule(.19,1.0,dark);
+  leg.position.set(.3*s,-1.05,0);
+  heroGroup.add(leg);
+  const shoe = new THREE.Mesh(new THREE.SphereGeometry(.25,16,12),dark);
+  shoe.scale.set(1.25,.45,1.8); shoe.position.set(.3*s,-1.65,.15); heroGroup.add(shoe);
+}
+heroGroup.rotation.y = -.2;
+heroGroup.position.y = .05;
+
+const floor = new THREE.Mesh(new THREE.CircleGeometry(3.2,64),new THREE.MeshStandardMaterial({color:0x111117,roughness:1}));
+floor.rotation.x=-Math.PI/2; floor.position.y=-1.88; heroScene.add(floor);
+const halo = new THREE.Mesh(new THREE.TorusGeometry(2.25,.025,12,96),new THREE.MeshBasicMaterial({color:0xc8ff38,transparent:true,opacity:.8}));
+halo.rotation.x=Math.PI/2; halo.position.y=-1.84; heroScene.add(halo);
+
+const heroControls = new OrbitControls(heroCamera, heroCanvas);
+heroControls.enableDamping=true;
+heroControls.enableZoom=false;
+heroControls.enablePan=false;
+heroControls.autoRotate=true;
+heroControls.autoRotateSpeed=.65;
+heroControls.target.set(0,.1,0);
+
+function resize(){
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+  const r=heroCanvas.getBoundingClientRect();
+  heroCamera.aspect=Math.max(r.width,1)/Math.max(r.height,1); heroCamera.updateProjectionMatrix();
+  heroRenderer.setSize(Math.max(r.width,1),Math.max(r.height,1),false);
+}
+addEventListener('resize',resize);
+resize();
+
+const clock=new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const t=clock.getElapsedTime();
+  particles.rotation.y=t*.006;
+  bgObj.rotation.x=t*.12; bgObj.rotation.y=t*.16;
+  controlsBg.update();
+  heroGroup.position.y=.05+Math.sin(t*1.2)*.035;
+  halo.rotation.z=t*.18;
+  heroControls.update();
+  renderer.render(scene,camera);
+  heroRenderer.render(heroScene,heroCamera);
+}
+animate();
+</script>
+</body>
+</html>
